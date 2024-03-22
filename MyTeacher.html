@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY TEACHER</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(236, 217, 193);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 50px;
+            margin: 50px 0;
+            /* Add margin to the top and bottom of the body */
+            padding: 0;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+        }
+        
+        #container {
+            width: 750px;
+            margin: 0 auto;
+            background-color: rgb(236, 217, 193);
+            padding: 20px 0;
+            border-radius: 5px;
+            
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
+            width: 79%;
+            padding: 18px;
+            margin: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        #updateResults {
+            float: right;
+        }
+        
+        button {
+            background-color: #0ef8be;
+            color: #090808;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 110px;
+            margin-left: 110px;
+            margin: 20px 0;
+            margin-inline-start: 37px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+        
+        #clearButton {
+            border-radius: 2px;
+            margin-top: 30px;
+            margin-inline-start: 10px;
+            justify-content: space-between;
+            margin-right: 110px;
+        }
+        
+        #results {
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            #container {
+                width: 80%;
+            }
+            /* Adjust padding or font size as needed for better visibility on smaller screens */
+            #container input[type="text"],
+            #container input[type="number"],
+            #container button {
+                padding: 8px;
+                margin: 5px;
+            }
+            #tableDisplay {
+                border-collapse: collapse;
+                width: 60%;
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+            }
+            th,
+            td {
+                border: 1px solid #f30b0b;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #d68e30;
+            }
+        }
+        /* For WebKit (Chrome, Safari) */
+        
+         ::-webkit-scrollbar {
+            width: 1;
+            /* Set the width to 0 to make it invisible */
+        }
+        /* For Firefox */
+        
+        body {
+            scrollbar-width: auto;
+            /* "thin" or "none" can be used to hide the scrollbar */
+        }
+        
+        body::-webkit-scrollbar-thumb {
+            background-color: rgb(227, 206, 206);
+            /* Set the background color to transparent */
+        }
+        
+        h1 {
+            color: rgb(75, 25, 25);
+            background-color: rgb(236, 217, 193);
+        }
+        
+        h6 {
+            float: left;
+            font: bold;
+            color: #090808;
+            
+        }
+        
+        h2 {
+            background-color:  rgb(236, 217, 193);
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            margin-inline-start: 150px;
+        }
+        
+        th,
+        td {
+            border: 1px solid #f30b0b;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #d68e30;
+        }
+        .wise{
+            
+            font-weight:900;
+            font-size: 40px;
+        }
+       
+        
+    </style>
+
+
+
+
+
+</head>
+
+<body>
+
+
+    <div id="container">
+        <h1 class="wise">MyTeacher</h1>
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" placeholder="Enter student name"><br>
+
+
+        <label for="subjectName">Subject Name:</label>
+        <input type="text" id="subjectName" placeholder="Enter subject name"><br>
+
+        <label for="subjectScore">Subject Score:</label>
+        <input type="number" id="subjectScore" placeholder="Enter subject score"><br>
+
+
+
+        <button onclick="addSubject()">Add SSS</button>
+        <button onclick="clearFields() ">Clear SSS</button>
+
+        <button id="updateButton">Create Table</button>
+
+
+
+
+
+        <div id="results">
+            <h2>Student Name:</h2>
+            <span id="studentNameDisplay">-</span>
+            <h2>Subjects:</h2>
+            <ul id="subjectList"></ul>
+            <h2>Total Marks:</h2> <span id="totalScore">0</span>
+            <h2>Average Marks:</h2>
+            <span id="averageScore">0%</span>
+
+        </div>
+        <div id="tableDisplay"></div>
+        <div id="passRateDisplay"></div>
+
+
+        <button id="clearButton">clear Table</button>
+
+
+        <button id="printButton"><i class="fas fa-print"></i> Print</button>
+
+
+        <h6></h6>
+        <!-- Add this link where you want it in your HTML -->
+
+
+
+
+
+
+    </div>
+
+    <script>
+        let subjects = [];
+        let studentName = "Active";
+
+        function addSubject() {
+            if (studentName === "Active") {
+                studentName = document.getElementById("studentName").value;
+                document.getElementById("studentName").disabled = true;
+                document.getElementById("studentNameDisplay").textContent = studentName;
+            }
+
+            const subjectName = document.getElementById("subjectName").value;
+            const subjectScore = parseInt(document.getElementById("subjectScore").value);
+
+            if (subjectName && !isNaN(subjectScore)) {
+                subjects.push({
+                    name: subjectName,
+                    score: subjectScore
+                });
+                displaySubjects();
+                calculateAverage();
+                calculateTotalScore();
+
+            }
+
+            document.getElementById("subjectName").value = "";
+            document.getElementById("subjectScore").value = "";
+
+            function calculateTotalScore() {
+                const totalScore = subjects.reduce((acc, subject) => acc + subject.score, 0);
+                document.getElementById("totalScore").textContent = totalScore;
+            }
+
+        }
+
+        function handleStudentNameInput() {
+            if (studentName === "Active") {
+                document.getElementById("studentNameDisplay").textContent = "Active";
+            }
+        }
+
+
+
+        function clearFields() {
+            if (studentName === "Active") {
+
+                document.getElementById("studentName").disabled = false;
+                document.getElementById("studentNameDisplay").textContent = "Active";
+                document.getElementById("totalScore").innerText = "Total Score: 0";
+                subjects = [];
+
+                displaySubjects();
+                calculateAverage();
+                calculateTotalScore();
+                document.getElementById("subjectName").value = "";
+                document.getElementById("subjectScore").value = "";
+
+
+            } else {
+                studentName === "Not Active"
+                studentName = "Active";
+                document.getElementById("studentName").disabled = false;
+                document.getElementById("studentNameDisplay").textContent = studentName;
+                document.getElementById("totalScore").innerText = "Total Score: 0";
+                subjects = [];
+
+                displaySubjects();
+                calculateAverage();
+                calculateTotalScore();
+                document.getElementById("subjectName").value = "";
+                document.getElementById("subjectScore").value = "";
+
+            }
+
+        }
+
+
+
+
+        function displaySubjects() {
+            const subjectList = document.getElementById("subjectList");
+            subjectList.innerHTML = "";
+            subjects.forEach((subject) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${subject.name}: ${subject.score}%`;
+                subjectList.appendChild(listItem);
+            });
+
+
+        }
+
+        function calculateAverage() {
+            const averageScore = document.getElementById("averageScore");
+            if (subjects.length > 0) {
+                const totalScore = subjects.reduce((acc, subject) => acc + subject.score, 0);
+                const average = totalScore / subjects.length;
+                averageScore.textContent = ` ${average.toFixed(2)}%`;
+            } else {
+                averageScore.textContent = "0%";
+            }
+
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let tableDisplayed = false;
+            const tableDisplay = document.getElementById('tableDisplay');
+            const clearButton = document.getElementById('clearButton');
+            const passRateDisplay = document.getElementById('passRateDisplay'); // Added for displaying pass rate
+            let studentCount = 0; // Initialize count to 0 for zero-based counting
+
+            document.getElementById('updateButton').addEventListener('click', function() {
+                const studentName = document.getElementById('studentNameDisplay').textContent.trim();
+                const totalScore = parseFloat(document.getElementById('totalScore').textContent.trim());
+                const averageScore = parseFloat(document.getElementById('averageScore').textContent.trim());
+                const passOrFail = averageScore >= 50 ? 'Pass' : 'Fail';
+
+                // Check if any of the fields are empty
+                if (isNaN(totalScore) || isNaN(averageScore) || studentName === '') {
+                    return; // Do nothing if any of the fields are empty
+                }
+
+                if (!tableDisplayed) {
+                    createTable(studentName, totalScore, averageScore, passOrFail);
+                    tableDisplayed = true;
+                } else {
+                    addRowToTable(studentName, totalScore, averageScore, passOrFail);
+                }
+            });
+
+            function createTable(studentName, totalScore, averageScore, passOrFail) {
+                const table = document.createElement('table');
+                table.classList.add('results-table');
+
+                const tableBody = document.createElement('tbody');
+                const tableHeaders = ['Position', 'Student Name', 'Total Marks', 'Average Marks', 'Pass/Fail'];
+
+                const headerRow = tableBody.insertRow();
+                tableHeaders.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    headerRow.appendChild(th);
+                });
+
+                const dataRow = tableBody.insertRow();
+                const dataCells = [studentCount, studentName, totalScore, averageScore, passOrFail]; // Updated to start counting from 0
+                dataCells.forEach(data => {
+                    const cell = dataRow.insertCell();
+                    cell.textContent = data;
+                });
+
+                table.appendChild(tableBody);
+                tableDisplay.appendChild(table);
+
+                sortTableByTotalScore();
+                studentCount++;
+                updatePassRate(); // Calculate and display pass rate when a new entry is added
+            }
+
+            function addRowToTable(studentName, totalScore, averageScore, passOrFail) {
+                const table = tableDisplay.querySelector('table');
+                const tableBody = table.querySelector('tbody');
+
+                const newRow = tableBody.insertRow();
+                const dataCells = [studentCount, studentName, totalScore, averageScore, passOrFail]; // Updated to start counting from 0
+                dataCells.forEach(data => {
+                    const cell = newRow.insertCell();
+                    cell.textContent = data;
+                });
+
+                sortTableByTotalScore();
+                studentCount++;
+                updatePassRate(); // Calculate and display pass rate when a new entry is added
+            }
+
+            function sortTableByTotalScore() {
+                const tableBody = document.querySelector('#tableDisplay table tbody');
+                const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+                rows.sort((rowA, rowB) => {
+                    const scoreA = parseFloat(rowA.cells[2].textContent);
+                    const scoreB = parseFloat(rowB.cells[2].textContent);
+                    return scoreB - scoreA;
+                });
+
+                tableBody.innerHTML = '';
+                rows.forEach((row, index) => {
+                    const positionCell = row.cells[0];
+                    const positionText = index === 0 ? '' : index;
+                    positionCell.textContent = positionText; // Update position without adding 1
+
+                    tableBody.appendChild(row);
+                });
+            }
+
+            function calculatePassRate() {
+                const tableBody = document.querySelector('#tableDisplay table tbody');
+                const passCells = tableBody.querySelectorAll('td:nth-child(5)'); // Assuming Pass/Fail cells are in the 5th column
+
+                let passCount = 0;
+                passCells.forEach(cell => {
+                    if (cell.textContent === 'Pass') {
+                        passCount++;
+                    }
+                });
+
+                const totalStudents = passCells.length;
+                const passRate = ((passCount / totalStudents) * 100).toFixed(2) + '%';
+
+                return passRate;
+            }
+
+            function updatePassRate() {
+                const passRate = calculatePassRate();
+                passRateDisplay.textContent = `Pass Rate: ${passRate}`;
+            }
+
+            clearButton.addEventListener('click', function() {
+                tableDisplayed = false;
+                studentCount = 0; // Reset count to 0
+                tableDisplay.innerHTML = '';
+                passRateDisplay.textContent = ''; // Clear pass rate display when clearing the table
+            });
+        });
+
+        document.getElementById('printButton').addEventListener('click', function() {
+            const rows = document.querySelectorAll('#tableDisplay tbody tr'); // Get all rows from the table body
+
+            const passRateDisplay = document.getElementById('passRateDisplay'); // Get the pass rate display element
+            const passRate = passRateDisplay.textContent; // Get the pass rate value
+
+            const newWindow = window.open();
+
+            newWindow.document.write('<html><head><title>Wiseman Kamanga</title>');
+            newWindow.document.write('<style>');
+            newWindow.document.write('table { margin: auto; }'); // Center the table horizontally
+            newWindow.document.write('</style>');
+            newWindow.document.write('</head><body>');
+            newWindow.document.write('<h1 style="text-align:center;">STUDENT RESULTS</h1>');
+
+            // Add pass rate information to the printed document
+            newWindow.document.write(`<p style="text-align:center;"> ${passRate}</p>`);
+
+            newWindow.document.write('<table border="1">');
+            newWindow.document.write('<thead><tr><th>Position</th><th>Student Name</th><th>Total Marks</th><th>Average Marks(%)</th><th>Pass/Fail</th></tr></thead>');
+            newWindow.document.write('<tbody>');
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td'); // Get all cells in the row
+
+                newWindow.document.write('<tr>'); // Start a new row in the new table
+                cells.forEach(cell => {
+                    newWindow.document.write(`<td>${cell.textContent}</td>`); // Write cell content into the new table
+                });
+                newWindow.document.write('</tr>'); // Close the row in the new table
+            });
+
+            newWindow.document.write('</tbody>');
+            newWindow.document.write('</table>');
+            newWindow.document.write('</body></html>');
+
+            newWindow.document.close(); // Close the document for writing
+            newWindow.print(); // Print the content
+            newWindow.close(); // Close the new window after printing
+        });
+    </script>
+
+</body>
+
+
+</html>
