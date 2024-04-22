@@ -1,0 +1,145 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Header styles */
+header {
+    background-image: url('nav-background.jpg');
+    background-size: cover;
+    padding: 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    display: inline;
+    margin-right: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.logo {
+    margin-right: auto;
+}
+
+.button {
+    margin-left: auto;
+}
+
+/* Section styles */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+#intro .container {
+    flex-direction: row-reverse;
+}
+
+.card {
+    width: 200px;
+    height: 150px;
+    background-color: lightgray;
+    margin-right: 10px;
+}
+
+#contact .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row-reverse; /* Reversed direction */
+}
+
+.contact-form {
+    width: 50%; /* Adjust as needed */
+}
+
+
+
+/* Contact Form styles */
+.contact-form {
+    padding: 20px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-form input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+/* Section styles */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items at the start of the cross axis (vertically) */
+}
+
+/* Styles for the contact form */
+.contact-form {
+    background-color: lightblue;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex: 1; /* Allow the form to grow to fill available space */
+}
+
+/* Styles for the map */
+.map {
+    background-color: lightgreen;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex: 1; /* Allow the map to grow to fill available space */
+}
